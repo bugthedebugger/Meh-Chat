@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:meh_chat/src/assets/assets.dart';
 import 'package:meh_chat/src/models/user/user.dart';
-import 'package:meh_chat/src/services/login/login.dart';
+import 'package:meh_chat/src/services/login/login_service.dart';
 import 'package:meh_chat/src/widgets/logo/logo.dart';
-import 'package:provider/provider.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 
 class SplashScreen extends StatefulWidget {
@@ -41,12 +40,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Provider<User>.value(
-      value: user,
-      child: Scaffold(
-        body: Center(
-          child: Logo(),
-        ),
+    return Scaffold(
+      body: Center(
+        child: Logo(),
       ),
     );
   }

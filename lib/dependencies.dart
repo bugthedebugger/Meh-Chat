@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:meh_chat/src/services/login/login.dart';
+import 'package:meh_chat/src/services/login/login_service.dart';
 import 'package:meh_chat/src/services/logout/logout_service.dart';
 import 'package:meh_chat/src/services/user_handler.dart/user_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
