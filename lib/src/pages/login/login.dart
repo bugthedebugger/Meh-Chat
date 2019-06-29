@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:meh_chat/src/assets/assets.dart';
+import 'package:meh_chat/src/models/user/user.dart';
+import 'package:meh_chat/src/services/login/login.dart';
 import 'package:meh_chat/src/widgets/logo/logo.dart';
+import 'package:kiwi/kiwi.dart' as kiwi;
 
 class Login extends StatelessWidget {
+  final LoginService _loginService = kiwi.Container().resolve<LoginService>();
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(
@@ -57,7 +62,27 @@ class Login extends StatelessWidget {
               ),
               child: Center(
                 child: RaisedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    try {
+                      User user = await _loginService.login();
+                      if (user != null) {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          AppRoutes.ALL_MESSAGE,
+                          (predicate) => false,
+                        );
+                      }
+                    } catch (_) {
+                      Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(_.toString()),
+                          action: SnackBarAction(
+                            label: 'ok',
+                            onPressed: () {},
+                          ),
+                        ),
+                      );
+                    }
+                  },
                   padding: EdgeInsets.all(
                     ScreenUtil().setWidth(10),
                   ),

@@ -10,12 +10,15 @@ class Logo extends StatelessWidget {
       allowFontScaling: true,
     )..init(context);
 
-    return Text(
-      'Meh-Chat',
-      style: TextStyle(
-        color: Theme.of(context).accentColor,
-        fontSize: FontSize.fontSize32,
-        fontWeight: FontWeight.bold,
+    return Hero(
+      tag: 'logo',
+      child: Text(
+        'Meh-Chat',
+        style: TextStyle(
+          color: Theme.of(context).accentColor,
+          fontSize: FontSize.fontSize32,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
