@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:meh_chat/src/models/messasges/messages.dart';
 import 'package:meh_chat/src/models/user/user.dart';
 
-class ChatRoom {
+class ChatRoom with ChangeNotifier {
   String documentID;
   Timestamp lastChat;
   Messages messages;
@@ -19,6 +20,7 @@ class ChatRoom {
     this.messages = json['messages'];
     this.participants = json['participants'];
     this.from = json['from'];
+    this.documentID = json['documentID'];
   }
 
   String toJson() {
@@ -34,10 +36,8 @@ class ChatRoom {
   Map<String, dynamic> toMap() {
     return {
       'last-chat': this.lastChat,
-      'documentID': this.documentID,
-      'messages': this.messages,
+      'messages': messages.toMap(),
       'participants': this.participants,
-      'from': this.from,
     };
   }
 }

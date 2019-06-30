@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:meh_chat/src/assets/assets.dart';
 
 class ToChatWidget extends StatelessWidget {
+  final String message;
+  final DateTime date;
+
+  ToChatWidget({Key key, @required this.message, this.date}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(
@@ -17,9 +22,16 @@ class ToChatWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
+              constraints: BoxConstraints(
+                maxWidth: ScreenUtil().setWidth(300),
+              ),
+              padding: EdgeInsets.only(
+                top: ScreenUtil().setWidth(10),
+                bottom: ScreenUtil().setWidth(10),
+                right: ScreenUtil().setWidth(10),
+                left: ScreenUtil().setWidth(15),
+              ),
               margin: EdgeInsets.all(ScreenUtil().setWidth(5)),
-              width: ScreenUtil().setWidth(300),
               decoration: BoxDecoration(
                 color: Theme.of(context).accentColor,
                 borderRadius: BorderRadius.only(
@@ -29,7 +41,7 @@ class ToChatWidget extends StatelessWidget {
                 ),
               ),
               child: Text(
-                'My super duper awesome message will appear here :D',
+                '$message',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: FontSize.fontSize12,
@@ -45,7 +57,7 @@ class ToChatWidget extends StatelessWidget {
             bottom: ScreenUtil().setWidth(5),
           ),
           child: Text(
-            '5:58 PM',
+            '${date.toLocal()}',
             style: TextStyle(
               fontSize: FontSize.fontSize12,
               fontWeight: FontWeight.w300,

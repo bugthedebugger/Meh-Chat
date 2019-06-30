@@ -8,6 +8,7 @@ class User with ChangeNotifier {
   String uid;
   String avatar;
   String reference;
+  bool me = true;
 
   DocumentReference get document => Firestore.instance.document(reference);
 
@@ -19,6 +20,7 @@ class User with ChangeNotifier {
     this.uid = data['uid'];
     this.avatar = data['avatar'];
     this.reference = '/user-data/${data["reference"]}';
+    this.me = data['me'];
     notifyListeners();
   }
 
@@ -30,6 +32,7 @@ class User with ChangeNotifier {
         'uid': uid,
         'avatar': avatar,
         'reference': reference,
+        'me': me,
       },
     );
   }

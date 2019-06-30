@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:meh_chat/src/assets/assets.dart';
 
 class FromChatWidget extends StatelessWidget {
+  final String message;
+  final DateTime date;
+
+  FromChatWidget({
+    Key key,
+    @required this.message,
+    @required this.date,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(
@@ -18,7 +27,9 @@ class FromChatWidget extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
               margin: EdgeInsets.all(ScreenUtil().setWidth(5)),
-              width: ScreenUtil().setWidth(300),
+              constraints: BoxConstraints(
+                maxWidth: ScreenUtil().setWidth(300),
+              ),
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
                 borderRadius: BorderRadius.only(
@@ -28,7 +39,7 @@ class FromChatWidget extends StatelessWidget {
                 ),
               ),
               child: Text(
-                'My super duper awesome message will appear here :D',
+                '$message',
                 style: TextStyle(
                   fontSize: FontSize.fontSize12,
                   fontWeight: FontWeight.w400,
@@ -43,7 +54,7 @@ class FromChatWidget extends StatelessWidget {
             bottom: ScreenUtil().setWidth(5),
           ),
           child: Text(
-            '5:58 PM',
+            '${date.toLocal()}',
             style: TextStyle(
               fontSize: FontSize.fontSize12,
               fontWeight: FontWeight.w300,

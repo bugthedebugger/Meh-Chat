@@ -9,7 +9,7 @@ class Messages {
 
   Messages.fromJson(List<dynamic> json) {
     List<Message> tempMessages = List<Message>();
-    json.forEach((message) {
+    json?.forEach((message) {
       tempMessages.add(Message.fromJson(message));
     });
     this.messages = tempMessages;
@@ -21,9 +21,11 @@ class Messages {
     });
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'messages': this.messages,
-    };
+  List<Map<String, dynamic>> toMap() {
+    List<Map<String, dynamic>> tempData = List<Map<String, dynamic>>();
+    messages.forEach((data) {
+      tempData.add(data.toMap());
+    });
+    return tempData;
   }
 }

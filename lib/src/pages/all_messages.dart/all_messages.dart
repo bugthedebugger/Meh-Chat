@@ -7,6 +7,7 @@ import 'package:meh_chat/src/services/logout/logout_service.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:meh_chat/src/services/user_handler.dart/user_handler.dart';
 import 'package:meh_chat/src/widgets/message_snippet_widget/message_snippet_widget.dart';
+import 'package:provider/provider.dart';
 
 class AllMessages extends StatefulWidget {
   @override
@@ -89,11 +90,15 @@ class _AllMessagesState extends State<AllMessages> {
                 return MessageSnippetWidget(
                   avatar: snapshot.data[index].from.avatar,
                   date: snapshot.data[index].lastChat.toDate(),
-                  messageSnippet:
-                      snapshot.data[index].messages.messages.last.message,
+                  messageSnippet: snapshot.data[index].messages.messages.isEmpty
+                      ? '...'
+                      : snapshot.data[index].messages.messages.last.message,
                   user: snapshot.data[index].from.name,
                   onTap: () {
-                    Navigator.of(context).pushNamed(AppRoutes.CHAT_PAGE);
+                    Navigator.of(context).pushNamed(
+                      AppRoutes.CHAT_PAGE,
+                      arguments: snapshot.data[index].documentID,
+                    );
                   },
                 );
               },

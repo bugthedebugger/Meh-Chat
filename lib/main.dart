@@ -38,7 +38,16 @@ class MehChat extends StatelessWidget {
         AppRoutes.SPLASH_SCREEN: (context) => SplashScreen(),
         AppRoutes.LOGIN: (context) => Login(),
         AppRoutes.ALL_MESSAGE: (context) => AllMessages(),
-        AppRoutes.CHAT_PAGE: (context) => ChatPage(),
+        // AppRoutes.CHAT_PAGE: (context) => ChatPage(),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == AppRoutes.CHAT_PAGE) {
+          final String documentID = settings.arguments;
+
+          return MaterialPageRoute(
+            builder: (context) => ChatPage(documentID: documentID),
+          );
+        }
       },
     );
   }
