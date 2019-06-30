@@ -92,7 +92,9 @@ class _AllMessagesState extends State<AllMessages> {
                   messageSnippet:
                       snapshot.data[index].messages.messages.last.message,
                   user: snapshot.data[index].from.name,
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pushNamed(AppRoutes.CHAT_PAGE);
+                  },
                 );
               },
             );
