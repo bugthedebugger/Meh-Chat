@@ -19,6 +19,19 @@ class MessageSnippetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String timeDifference;
+    Duration timeDiffObject = DateTime.now().difference(date);
+
+    if (timeDiffObject.inSeconds < 60) {
+      timeDifference = '${timeDiffObject.inSeconds} s';
+    } else if (timeDiffObject.inMinutes >= 1 && timeDiffObject.inMinutes < 60) {
+      timeDifference = '${timeDiffObject.inMinutes} min';
+    } else if (timeDiffObject.inHours >= 1 && timeDiffObject.inHours < 24) {
+      timeDifference = '${timeDiffObject.inHours} hrs';
+    } else if (timeDiffObject.inDays >= 1) {
+      timeDifference = '${timeDiffObject.inDays} days';
+    }
+
     ScreenUtil.instance = ScreenUtil(
       width: ScreenSize.screenWidth,
       height: ScreenSize.screenWidth,
@@ -39,9 +52,9 @@ class MessageSnippetWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             CircleAvatar(
-              // backgroundImage: NetworkImage(
-              //   avatar,
-              // ),
+              backgroundImage: NetworkImage(
+                avatar,
+              ),
               minRadius: ScreenUtil().setWidth(25),
               maxRadius: ScreenUtil().setWidth(30),
             ),
@@ -68,7 +81,7 @@ class MessageSnippetWidget extends StatelessWidget {
                       ),
                       SizedBox(width: ScreenUtil().setWidth(10)),
                       Text(
-                        '5 min',
+                        '$timeDifference',
                         style: TextStyle(
                           fontSize: FontSize.fontSize12,
                           color: Colors.grey[400],
