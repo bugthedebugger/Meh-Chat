@@ -21,6 +21,18 @@ class MehChat extends StatelessWidget {
         primaryColor: Color(AppColors.PRIMARY),
         fontFamily: 'Montserrat',
       ),
+      darkTheme: ThemeData(
+        accentColor: Color(AppColors.ACCENT),
+        primaryColor: Colors.black,
+        fontFamily: 'Montserrat',
+        brightness: Brightness.dark,
+        accentColorBrightness: Brightness.dark,
+        primaryTextTheme: TextTheme(
+          title: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
       routes: {
         AppRoutes.SPLASH_SCREEN: (context) => SplashScreen(),
         AppRoutes.LOGIN: (context) => Login(),

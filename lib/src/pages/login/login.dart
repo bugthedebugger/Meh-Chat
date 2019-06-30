@@ -4,7 +4,6 @@ import 'package:meh_chat/src/models/user/user.dart';
 import 'package:meh_chat/src/services/login/login_service.dart';
 import 'package:meh_chat/src/widgets/logo/logo.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
-import 'package:provider/provider.dart';
 
 class Login extends StatelessWidget {
   final LoginService _loginService = kiwi.Container().resolve<LoginService>();

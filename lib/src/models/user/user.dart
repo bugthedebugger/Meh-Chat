@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class User with ChangeNotifier {
@@ -6,14 +7,18 @@ class User with ChangeNotifier {
   String email;
   String uid;
   String avatar;
+  String reference;
 
-  User(this.name, this.email, this.uid, this.avatar);
+  DocumentReference get document => Firestore.instance.document(reference);
+
+  User(this.name, this.email, this.uid, this.avatar, this.reference);
 
   User.fromJson(Map<String, dynamic> data) {
     this.name = data['name'];
     this.email = data['email'];
     this.uid = data['uid'];
     this.avatar = data['avatar'];
+    this.reference = '/user-data/' + data['reference'];
     notifyListeners();
   }
 
@@ -24,6 +29,7 @@ class User with ChangeNotifier {
         'email': email,
         'uid': uid,
         'avatar': avatar,
+        'reference': reference,
       },
     );
   }

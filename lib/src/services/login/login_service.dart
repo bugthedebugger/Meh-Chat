@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meh_chat/src/models/user/user.dart';
 import 'package:meh_chat/src/services/user_handler.dart/user_handler.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginService {
   final GoogleSignIn _googleSiginIn;
@@ -18,17 +19,10 @@ class LoginService {
     }
 
     print("Logging In");
-    FirebaseUser firebaseUser = await _handleSignIn();
+    User firebaseUser = await _handleSignIn();
     if (firebaseUser != null) {
-      User user = User(
-        firebaseUser.displayName,
-        firebaseUser.email,
-        firebaseUser.uid,
-        firebaseUser.photoUrl,
-      );
-
-      _userHandler.create(user);
-      return user;
+      _userHandler.create(firebaseUser);
+      return firebaseUser;
     }
     return null;
   }
@@ -37,7 +31,7 @@ class LoginService {
     return await _googleSiginIn.isSignedIn();
   }
 
-  Future<FirebaseUser> _handleSignIn() async {
+  Future<User> _handleSignIn() async {
     final GoogleSignInAccount googleUser = await _googleSiginIn.signIn();
     final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
@@ -48,7 +42,45 @@ class LoginService {
     );
 
     final FirebaseUser user = await _auth.signInWithCredential(credential);
+    User mehUser;
 
-    return user;
+    Firestore firestore = Firestore.instance;
+    QuerySnapshot firestoreUserData = await firestore
+        .collection('user-data')
+        .where('uid', isEqualTo: user.uid)
+        .getDocuments();
+
+    if (firestoreUserData.documents.length == 0) {
+      await firestore.collection('user-data').document().setData({
+        'uid': user.uid,
+        'email': user.email,
+        'avatar': user.photoUrl,
+        'status': false,
+        'name': user.displayName,
+      });
+
+      firestoreUserData = await firestore
+          .collection('user-data')
+          .where('uid', isEqualTo: user.uid)
+          .getDocuments();
+
+      mehUser = User(
+        user.displayName,
+        user.email,
+        user.uid,
+        user.photoUrl,
+        firestoreUserData.documents.first.reference.documentID,
+      );
+    } else {
+      mehUser = User(
+        user.displayName,
+        user.email,
+        user.uid,
+        user.photoUrl,
+        firestoreUserData.documents.first.reference.documentID,
+      );
+    }
+
+    return mehUser;
   }
 }
