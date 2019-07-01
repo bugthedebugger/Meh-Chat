@@ -40,7 +40,7 @@ class Login extends StatelessWidget {
             right: 0,
             child: Container(
               width: double.infinity,
-              height: ScreenUtil().setHeight(150),
+              height: ScreenUtil().setHeight(120),
               decoration: BoxDecoration(
                 color: Theme.of(context).accentColor,
                 borderRadius: BorderRadius.only(
@@ -55,7 +55,7 @@ class Login extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 290,
+            top: ScreenUtil().setHeight(165),
             child: Container(
               height: ScreenUtil().setHeight(150),
               width: ScreenUtil().setWidth(ScreenSize.screenWidth),

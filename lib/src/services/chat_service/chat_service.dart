@@ -28,11 +28,13 @@ class ChatService {
 
   ChatRoom chatRoom;
 
-  void init(String documentID) async {
+  StreamSubscription _firestoreSub;
+
+  Future init(String documentID) async {
     user = userHandler.getUser();
     userReference = user.document;
 
-    firestore
+    _firestoreSub = firestore
         .document('chat-rooms/$documentID')
         .snapshots()
         .listen((document) async {
@@ -62,7 +64,7 @@ class ChatService {
     });
   }
 
-  void send(String message) {
+  Future send(String message) async {
     Message tempMessage = Message(
       userReference,
       message,
@@ -70,13 +72,16 @@ class ChatService {
       Timestamp.now(),
     );
 
+    chatRoom.lastChat = Timestamp.now();
     chatRoom.messages.messages.add(tempMessage);
 
     print(chatRoom.toMap());
 
-    firestore.runTransaction((Transaction tx) async {
+    await firestore.runTransaction((Transaction tx) async {
       await tx.update(chatRoomReference, chatRoom.toMap());
     });
+
+    return;
   }
 
   void addData(Messages messages) {
@@ -90,5 +95,6 @@ class ChatService {
   void dispose() {
     _messagesController?.close();
     _chatController?.close();
+    _firestoreSub?.cancel();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meh_chat/src/assets/assets.dart';
+import 'package:intl/intl.dart';
 
 class FromChatWidget extends StatelessWidget {
   final String message;
@@ -18,6 +19,7 @@ class FromChatWidget extends StatelessWidget {
       height: ScreenSize.screenWidth,
       allowFontScaling: true,
     )..init(context);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +56,7 @@ class FromChatWidget extends StatelessWidget {
             bottom: ScreenUtil().setWidth(5),
           ),
           child: Text(
-            '${date.toLocal()}',
+            '${DateFormat.yMMMMEEEEd().format(date)}, ${TimeOfDay.fromDateTime(date).format(context)}',
             style: TextStyle(
               fontSize: FontSize.fontSize12,
               fontWeight: FontWeight.w300,

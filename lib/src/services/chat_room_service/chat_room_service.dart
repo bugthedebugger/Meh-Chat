@@ -71,6 +71,6 @@ class ChatRoomService {
   }
 
   void dispose() {
-    // _roomStreamController?.close();
+    _roomStreamController?.close();
   }
 }

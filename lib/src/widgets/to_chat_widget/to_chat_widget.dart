@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:meh_chat/src/assets/assets.dart';
 
 class ToChatWidget extends StatelessWidget {
@@ -57,7 +58,7 @@ class ToChatWidget extends StatelessWidget {
             bottom: ScreenUtil().setWidth(5),
           ),
           child: Text(
-            '${date.toLocal()}',
+            '${DateFormat.yMMMMEEEEd().format(date)}, ${TimeOfDay.fromDateTime(date).format(context)}',
             style: TextStyle(
               fontSize: FontSize.fontSize12,
               fontWeight: FontWeight.w300,
