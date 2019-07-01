@@ -3,6 +3,7 @@ import 'package:meh_chat/src/assets/assets.dart';
 import 'package:meh_chat/src/models/chat_room/chat_room.dart';
 import 'package:meh_chat/src/models/messasges/messages.dart';
 import 'package:meh_chat/src/services/chat_service/chat_service.dart';
+import 'package:meh_chat/src/widgets/custom_input_field/custom_input_field.dart';
 import 'package:meh_chat/src/widgets/from_chat_widget/from_chat_widget.dart';
 import 'package:meh_chat/src/widgets/to_chat_widget/to_chat_widget.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
@@ -67,7 +68,7 @@ class _ChatPageState extends State<ChatPage> {
               children: <Widget>[
                 Container(
                   width: ScreenUtil().setWidth(ScreenSize.screenWidth),
-                  height: ScreenUtil().setHeight(274),
+                  height: ScreenUtil().setHeight(274.5),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -80,6 +81,7 @@ class _ChatPageState extends State<ChatPage> {
                     builder: (context, messagesSnapshot) {
                       if (messagesSnapshot.hasData) {
                         return ListView.builder(
+                          physics: BouncingScrollPhysics(),
                           controller: _scrollController,
                           addAutomaticKeepAlives: true,
                           itemCount: messagesSnapshot.data.messages.length + 1,
@@ -142,32 +144,14 @@ class _ChatPageState extends State<ChatPage> {
                   ),
                   color: Colors.white,
                   alignment: Alignment.center,
-                  child: TextField(
-                    controller: _textController,
-                    decoration: InputDecoration(
-                      fillColor: Theme.of(context).primaryColor,
-                      filled: true,
-                      hintText: 'Message ...',
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(
-                          ScreenUtil().setWidth(30),
-                        ),
-                      ),
-                      suffixIcon: IconButton(
-                        onPressed: () async {
-                          if (_textController.text.length > 0) {
-                            await _chatService.send(_textController.text);
-                            scrollToLast();
-                          }
-                          _textController.clear();
-                        },
-                        icon: Icon(
-                          FontAwesomeIcons.paperPlane,
-                          color: Theme.of(context).accentColor,
-                        ),
-                      ),
+                  child: CustomInputField(
+                    hint: 'Message ...',
+                    icon: Icon(
+                      FontAwesomeIcons.paperPlane,
+                      color: Theme.of(context).accentColor,
                     ),
+                    onPressed: handleSend,
+                    textController: _textController,
                   ),
                 ),
               ],
@@ -176,6 +160,14 @@ class _ChatPageState extends State<ChatPage> {
         );
       },
     );
+  }
+
+  void handleSend() async {
+    if (_textController.text.length > 0) {
+      await _chatService.send(_textController.text);
+      scrollToLast();
+    }
+    _textController.clear();
   }
 
   void scrollToLast() {

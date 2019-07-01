@@ -36,7 +36,7 @@ class ChatRoom with ChangeNotifier {
   Map<String, dynamic> toMap() {
     return {
       'last-chat': this.lastChat,
-      'messages': messages.toMap(),
+      'messages': messages?.toMap(),
       'participants': this.participants,
     };
   }
