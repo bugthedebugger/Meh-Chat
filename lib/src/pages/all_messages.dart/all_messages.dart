@@ -121,6 +121,7 @@ class _AllMessagesState extends State<AllMessages> {
       body: StreamBuilder<List<ChatRoom>>(
         stream: _chatRoomService.roomStream,
         builder: (context, snapshot) {
+          print(snapshot);
           if (snapshot.hasData) {
             return ListView.builder(
               physics: BouncingScrollPhysics(),
@@ -153,6 +154,7 @@ class _AllMessagesState extends State<AllMessages> {
           userFound = false;
           searchingUser = false;
           userMessage = 'Search user first ...';
+          _textController.clear();
 
           showDialog(
             context: context,
@@ -181,7 +183,6 @@ class _AllMessagesState extends State<AllMessages> {
                         onPressed: () {
                           if (_textController.text.length > 0) {
                             _chatRoomService.newChat(_textController.text);
-                            _textController.clear();
                           }
                         },
                       ),

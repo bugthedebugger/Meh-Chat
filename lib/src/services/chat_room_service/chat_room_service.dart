@@ -41,7 +41,9 @@ class ChatRoomService {
         .listen(
       (chatRoomSnapshot) {
         chatRoomLists.clear();
-        print(chatRoomSnapshot.documents.length);
+        if (chatRoomSnapshot.documents.length == 0) {
+          addData(List<ChatRoom>());
+        }
         chatRoomSnapshot.documents.forEach((document) async {
           print(document);
           Timestamp lastChat = document.data['last-chat'];
